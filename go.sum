@@ -1,8 +1,8 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/RadhiFadlillah/go-hijri v0.0.0-20190914063304-f9d5f7668622 h1:/GZlmZCzcZwZy1soNf4eU/v49ev5hImtmgZp11RdFsk=
 github.com/RadhiFadlillah/go-hijri v0.0.0-20190914063304-f9d5f7668622/go.mod h1:SjOq2n/7O1yJ/eIu/vR6PNZaIqCTVucHeSE/JH1Oi08=
-github.com/RadhiFadlillah/go-hijri v1.0.0 h1:gqvr3hO+9aJCb5zf0UfzdHnIBr8kq5H/Swgnx59fJkA=
-github.com/RadhiFadlillah/go-hijri v1.0.0/go.mod h1:SjOq2n/7O1yJ/eIu/vR6PNZaIqCTVucHeSE/JH1Oi08=
+github.com/RadhiFadlillah/go-prayer v0.0.0-20190915074711-34100aa56d18 h1:KxggBUZm7f+96d6oLWNhYhe4Khd4lToGIgyBbIALBRs=
+github.com/RadhiFadlillah/go-prayer v0.0.0-20190915074711-34100aa56d18/go.mod h1:Rbe4Ro4JL1q+pDbkKylPlxuSTNSZP1wG3n2A2BkAD6A=
 github.com/RadhiFadlillah/qamel v0.0.0-20190827090335-5017cd7ab5bd h1:UZtOxYmJ+TfLlaXu0ik+Ti5ePAtlFQ+0gAAROUE1Wkc=
 github.com/RadhiFadlillah/qamel v0.0.0-20190827090335-5017cd7ab5bd/go.mod h1:T/veWA8AAcHEV+TK1fHeJbOyssZBBJEJdpLxLv8Sj0c=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
