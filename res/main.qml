@@ -61,14 +61,24 @@ Rectangle {
             footer.currentSeconds = seconds;
 
             // Set tooltip data
-            var targetPrayer = prayerData[target.index],
-                targetLength = targetPrayer.finish - targetPrayer.start || 300,
-                targetX = Math.round(root.width / 86400 * targetPrayer.start),
+            var targetPrayer = prayerData[target.index] || {},
+                targetStart = targetPrayer.start || 0,
+                targetFinish = targetPrayer.finish || 0;
+            
+            if (targetStart > 86400) {
+                targetStart -= 86400;
+                targetFinish -= 86400;
+            }
+
+            var targetLength = targetFinish - targetStart || 300,
+                targetX = Math.round(root.width / 86400 * targetStart),
                 targetWidth = Math.round(root.width / 86400 * targetLength);
             
-            tooltip.title = target.name;
-            tooltip.value = target.time;
-            tooltip.x = targetX - (tooltip.width / 2) + (targetWidth / 2);
+            tooltip.title = target.name || "";
+            tooltip.value = target.time || "";
+            tooltip.x = targetX - 
+                Math.round(tooltip.width / 2) + 
+                Math.round(targetWidth / 2);
         }
 
         onDateChanged: (date, prayer) => _onDateChanged(date, prayer)
