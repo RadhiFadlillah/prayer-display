@@ -7,7 +7,7 @@ import "fonts/SourceSansPro" as SSP
 Rectangle {
     id: root
 
-    color: "cyan"
+    color: "#000"
     Component.onCompleted: backEnd.start()
 
     BackEnd.Display {
@@ -75,6 +75,48 @@ Rectangle {
         onClockChanged: (clock, seconds) => _onClockChanged(clock, seconds)
     }
 
+    MouseArea {
+        anchors.fill: parent
+        enabled: false
+        cursorShape: Qt.BlankCursor
+    }
+
+    Image {
+        id: toBeCreated
+
+        anchors.fill: parent
+        source: "../display/02.jpg"
+        fillMode: Image.PreserveAspectCrop
+        sourceSize { width: 1600; height: 900 }
+    }
+
+    Image {
+        id: toBeDeleted
+
+        anchors.fill: parent
+        source: "../display/01.jpg"
+        fillMode: Image.PreserveAspectCrop
+        sourceSize { width: 1600; height: 900 }
+
+        NumberAnimation on opacity {
+            id: fadeOut
+
+            from: 1; to: 0;
+            duration: 2000
+            running: false
+            onRunningChanged: {
+                if (!running) {
+                    toBeDeleted.destroy();
+                }
+            }
+        }
+
+        Timer {
+            interval: 30000; running: true
+            onTriggered: fadeOut.start()
+        }
+    }
+
     Components.Header {
         id: header
 
@@ -83,7 +125,6 @@ Rectangle {
             return screenHeight / 900 * 50;
         }
 
-        color: "black"
         anchors { top: parent.top; left: parent.left; right: parent.right }
         height: _height()
     }
@@ -105,7 +146,6 @@ Rectangle {
             return screenHeight / 900 * 30;
         }
 
-        color: "black"
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: _height()
     }

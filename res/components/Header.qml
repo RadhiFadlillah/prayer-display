@@ -36,6 +36,14 @@ Rectangle {
         return `${targetName} ${countdown}`;
     }
 
+    color: "transparent"
+
+    Rectangle {
+        color: "#000"
+        opacity: 0.6
+        anchors.fill: parent
+    }
+
     RowLayout {
         spacing: 0
         anchors { fill: parent; leftMargin: 16; rightMargin: 16 }

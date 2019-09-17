@@ -9,6 +9,14 @@ Rectangle {
     property int currentSeconds: 0
     property alias progressColor: progressBar.color
 
+    color: "transparent"
+
+    Rectangle {
+        color: "#000"
+        opacity: 0.6
+        anchors.fill: parent
+    }
+
     Rectangle {
         id: progressBar
 

@@ -16,3 +16,6 @@ prayer-display-dev
 
 # Exclude vendor dir
 /vendor
+
+# Exclude display image
+/display
