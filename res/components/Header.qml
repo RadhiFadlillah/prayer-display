@@ -13,13 +13,13 @@ Rectangle {
     property alias clockColor: txtClock.color
 
     function _fontSize() {
-        return height / 50 * 15 || 15;
+        return Math.round(height / 50 * 15) || 15;
     }
 
     function _countdownText() {
         var targetData = target || {},
             targetName = targetData.name || "",
-            targetTime = targetData.time || 0;
+            targetTime = targetData.seconds || 0;
         
         if (targetName === "" || targetTime === 0) return "";
 
@@ -47,7 +47,7 @@ Rectangle {
             rightPadding: 16
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
-            font { bold: true; family: SSP.Fonts.bold; pointSize: root._fontSize() }
+            font { bold: true; family: SSP.Fonts.regular; pointSize: root._fontSize() }
         }
 
         Text {

@@ -13,7 +13,7 @@ Rectangle {
         id: progressBar
 
         function _width() {
-            return root.width / 86400 * root.currentSeconds;
+            return Math.round(root.width / 86400 * root.currentSeconds);
         }
 
         color: "#333"
@@ -38,13 +38,13 @@ Rectangle {
                 var data = root.prayerData[index],
                     screenWidth = root.width,
                     segmentLength = data.finish - data.start || 300;
-                return screenWidth / 86400 * segmentLength;
+                return Math.round(screenWidth / 86400 * segmentLength);
             }
 
             function _x() {
                 var data = root.prayerData[index],
                     screenWidth = root.width;
-                return screenWidth / 86400 * data.start;
+                return Math.round(screenWidth / 86400 * data.start);
             }
 
             color: _color()

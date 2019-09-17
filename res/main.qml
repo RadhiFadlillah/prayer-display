@@ -34,7 +34,8 @@ Rectangle {
                     target = {
                         index: i,
                         name: data.name,
-                        time: data.start,
+                        time: data.adhan,
+                        seconds: data.start,
                     };
                     break
                 }
@@ -43,20 +44,31 @@ Rectangle {
                     target = {
                         index: i,
                         name: `Iqamah ${data.name}`,
-                        time: data.finish,
+                        time: data.iqamah,
+                        seconds: data.finish,
                     };
                     break
                 }
             }
 
-            // Send data to header
+            // Set header data
             header.target = target;
             header.currentSeconds = seconds;
             header.clock = clock;
 
-            // Send data to footer
+            // Set footer data
             footer.target = target;
             footer.currentSeconds = seconds;
+
+            // Set tooltip data
+            var targetPrayer = prayerData[target.index],
+                targetLength = targetPrayer.finish - targetPrayer.start || 300,
+                targetX = Math.round(root.width / 86400 * targetPrayer.start),
+                targetWidth = Math.round(root.width / 86400 * targetLength);
+            
+            tooltip.title = target.name;
+            tooltip.value = target.time;
+            tooltip.x = targetX - (tooltip.width / 2) + (targetWidth / 2);
         }
 
         onDateChanged: (date, prayer) => _onDateChanged(date, prayer)
@@ -74,6 +86,15 @@ Rectangle {
         color: "black"
         anchors { top: parent.top; left: parent.left; right: parent.right }
         height: _height()
+    }
+
+    Components.Tooltip {
+        id: tooltip
+
+        x: 100
+        y: root.height - footer.height - height - 16
+        screenWidth: root.width
+        screenHeight: root.height
     }
 
     Components.Footer {
