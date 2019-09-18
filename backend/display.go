@@ -2,10 +2,14 @@ package backend
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
+	fp "path/filepath"
 	"time"
 
 	hijri "github.com/RadhiFadlillah/go-hijri"
 	"github.com/RadhiFadlillah/qamel"
+	"github.com/sirupsen/logrus"
 )
 
 // Display is back end for the app.
@@ -15,17 +19,22 @@ type Display struct {
 	_ func()               `slot:"start"`
 	_ func(string, int)    `signal:"clockChanged"`
 	_ func(string, string) `signal:"dateChanged"`
+	_ func(string)         `signal:"imageChanged"`
 }
 
 func (b *Display) start() {
 	go b.startDateTicker()
 	go b.startClockTicker()
+	go b.startImageSlides()
 }
 
 func (b *Display) startClockTicker() {
-	for now := range time.Tick(time.Second) {
+	for {
+		now := time.Now()
 		seconds := now.Hour()*3600 + now.Minute()*60 + now.Second()
 		b.clockChanged(now.Format("15:04:05"), seconds)
+
+		time.Sleep(time.Second)
 	}
 }
 
@@ -57,5 +66,41 @@ func (b *Display) startDateTicker() {
 		duration := nextDay.Sub(date)
 
 		time.Sleep(duration)
+	}
+}
+
+func (b *Display) startImageSlides() {
+	// Get executable directory
+	exePath, err := os.Executable()
+	if err != nil {
+		logrus.WithError(err).Errorln("failed to find exe path")
+	}
+	exeDir := fp.Dir(exePath)
+
+	// Read `display` directory
+	imageDir := fp.Join(exeDir, "display")
+	files, err := ioutil.ReadDir(imageDir)
+	if err != nil {
+		logrus.WithError(err).Errorln("failed to read image dir")
+	}
+
+	imageSlides := []string{}
+	for _, file := range files {
+		filePath := fp.Join(imageDir, file.Name())
+		if imageIsJPG(filePath) {
+			imageSlides = append(imageSlides, filePath)
+		}
+	}
+
+	// Send image to GUI
+	slideIndex := -1
+	for {
+		slideIndex++
+		if slideIndex >= len(imageSlides) {
+			slideIndex = 0
+		}
+
+		b.imageChanged(imageSlides[slideIndex])
+		time.Sleep(30 * time.Second)
 	}
 }

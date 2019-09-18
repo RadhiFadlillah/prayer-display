@@ -8,7 +8,12 @@ Rectangle {
     id: root
 
     color: "#000"
-    Component.onCompleted: backEnd.start()
+
+    Timer {
+        interval: 1000
+        running: true
+        onTriggered: backEnd.start()
+    }
 
     BackEnd.Display {
         id: backEnd
@@ -81,8 +86,13 @@ Rectangle {
                 Math.round(targetWidth / 2);
         }
 
+        function _onImageChanged(filePath) {
+            imageSlides.imagePath = filePath;
+        }
+
         onDateChanged: (date, prayer) => _onDateChanged(date, prayer)
         onClockChanged: (clock, seconds) => _onClockChanged(clock, seconds)
+        onImageChanged: (filePath) => _onImageChanged(filePath)
     }
 
     MouseArea {
@@ -91,40 +101,11 @@ Rectangle {
         cursorShape: Qt.BlankCursor
     }
 
-    Image {
-        id: toBeCreated
+    Components.ImageSlides {
+        id: imageSlides
 
-        anchors.fill: parent
-        source: "../display/02.jpg"
-        fillMode: Image.PreserveAspectCrop
-        sourceSize { width: 1600; height: 900 }
-    }
-
-    Image {
-        id: toBeDeleted
-
-        anchors.fill: parent
-        source: "../display/01.jpg"
-        fillMode: Image.PreserveAspectCrop
-        sourceSize { width: 1600; height: 900 }
-
-        NumberAnimation on opacity {
-            id: fadeOut
-
-            from: 1; to: 0;
-            duration: 2000
-            running: false
-            onRunningChanged: {
-                if (!running) {
-                    toBeDeleted.destroy();
-                }
-            }
-        }
-
-        Timer {
-            interval: 30000; running: true
-            onTriggered: fadeOut.start()
-        }
+        screenWidth: root.width
+        screenHeight: root.height
     }
 
     Components.Header {
