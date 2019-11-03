@@ -8,22 +8,19 @@ import (
 	_ "image/jpeg"
 )
 
+var indonesianDays = []string{
+	"Minggu",
+	"Senin",
+	"Selasa",
+	"Rabu",
+	"Kamis",
+	"Jumat",
+	"Sabtu",
+}
+
 func getDayName(weekDay int) string {
-	switch weekDay {
-	case 1:
-		return "Senin"
-	case 2:
-		return "Selasa"
-	case 3:
-		return "Rabu"
-	case 4:
-		return "Kamis"
-	case 5:
-		return "Jumat"
-	case 6:
-		return "Sabtu"
-	case 7:
-		return "Minggu"
+	if weekDay >= 0 && weekDay <= 6 {
+		return indonesianDays[weekDay]
 	}
 
 	return ""
