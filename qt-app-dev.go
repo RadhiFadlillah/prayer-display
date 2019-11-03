@@ -24,7 +24,7 @@ func runQtApp(argc int, argv []string) {
 	view.SetResizeMode(qamel.SizeRootObjectToView)
 	view.SetHeight(600)
 	view.SetWidth(800)
-	view.ShowFullScreen()
+	view.ShowMaximized()
 
 	// Watch change in resource dir
 	projectDir, err := os.Getwd()

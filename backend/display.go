@@ -45,12 +45,9 @@ func (b *Display) startDateTicker() {
 		hYear, hMonth, hDay, _ := hijri.ToUmmAlQura(date)
 
 		dayName := getDayName(int(date.Weekday()))
-		monthName := getMonthName(int(date.Month()))
-		hMonthName := getHijriMonthName(hMonth)
-
-		strDate := fmt.Sprintf("%s, %d %s %d M / %d %s %d H", dayName,
-			date.Day(), monthName, date.Year(),
-			hDay, hMonthName, hYear)
+		strDate := fmt.Sprintf("%s, %02d-%02d-%04d M / %02d-%02d-%04d H", dayName,
+			date.Day(), date.Month(), date.Year(),
+			hDay, hMonth, hYear)
 
 		// Get prayer data
 		prayerData := getPrayerTime(date)

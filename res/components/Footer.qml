@@ -6,59 +6,48 @@ Rectangle {
 
     property var target: {}
     property var prayerData: []
-    property int currentSeconds: 0
-    property alias progressColor: progressBar.color
+
+	function _spacingSize() {
+		var spacing = Math.round(width / 1600 * 8);
+		return spacing >= 8 ? spacing : 8;
+	}
 
     color: "transparent"
+	height: content.height
 
-    Rectangle {
-        color: "#000"
-        opacity: 0.6
-        anchors.fill: parent
-    }
+	RowLayout {
+		id: content
 
-    Rectangle {
-        id: progressBar
+		width: root.width
+		spacing: root._spacingSize()
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.verticalCenter: parent.verticalCenter
 
-        function _width() {
-            return Math.round(root.width / 86400 * root.currentSeconds);
-        }
+		Rectangle {
+			color: "transparent"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+			Layout.preferredWidth: 1
+		}
 
-        color: "#333"
-        height: parent.height
-        width: _width()
-    }
+		Repeater {
+			model: root.prayerData.slice(0, 6)
 
-    Repeater {
-        model: root.prayerData.length
+			PrayerTime {
+				name: modelData.name
+				adhan: modelData.adhan
+				iqamah: modelData.iqamah
+				parentWidth: root.width
+				color: "yellow"
+			}
+		}
 
-        Rectangle {
-            function _color() {
-                var targetData = root.target || {},
-                    targetIndex = targetData.index || -1;
-
-                if (index === targetIndex) return "#F00";
-                else if (targetIndex === 6 && index === 0) return "#F00";
-                else return "#CCC";
-            }
-
-            function _width() {
-                var data = root.prayerData[index],
-                    screenWidth = root.width,
-                    segmentLength = data.finish - data.start || 300;
-                return Math.round(screenWidth / 86400 * segmentLength);
-            }
-
-            function _x() {
-                var data = root.prayerData[index],
-                    screenWidth = root.width;
-                return Math.round(screenWidth / 86400 * data.start);
-            }
-
-            color: _color()
-            height: parent.height
-            width: _width()
-            x: _x()
-        }
-    }
+		Rectangle {
+			color: "transparent"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+			Layout.preferredWidth: 1
+		}
+	}
 }

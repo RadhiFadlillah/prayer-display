@@ -61,29 +61,8 @@ Rectangle {
             header.currentSeconds = seconds;
             header.clock = clock;
 
-            // Set footer data
+			// Set footer data
             footer.target = target;
-            footer.currentSeconds = seconds;
-
-            // Set tooltip data
-            var targetPrayer = prayerData[target.index] || {},
-                targetStart = targetPrayer.start || 0,
-                targetFinish = targetPrayer.finish || 0;
-            
-            if (targetStart > 86400) {
-                targetStart -= 86400;
-                targetFinish -= 86400;
-            }
-
-            var targetLength = targetFinish - targetStart || 300,
-                targetX = Math.round(root.width / 86400 * targetStart),
-                targetWidth = Math.round(root.width / 86400 * targetLength);
-            
-            tooltip.title = target.name || "";
-            tooltip.value = target.time || "";
-            tooltip.x = targetX - 
-                Math.round(tooltip.width / 2) + 
-                Math.round(targetWidth / 2);
         }
 
         function _onImageChanged(filePath) {
@@ -111,33 +90,16 @@ Rectangle {
     Components.Header {
         id: header
 
-        function _height() {
-            var screenHeight = root.height;
-            return screenHeight / 900 * 50;
-        }
-
-        anchors { top: parent.top; left: parent.left; right: parent.right }
-        height: _height()
-    }
-
-    Components.Tooltip {
-        id: tooltip
-
-        x: 100
-        y: root.height - footer.height - height - 16
-        screenWidth: root.width
-        screenHeight: root.height
+		anchors.top: parent.top
+		anchors.left: parent.left
+		anchors.right: parent.right
     }
 
     Components.Footer {
         id: footer
 
-        function _height() {
-            var screenHeight = root.height;
-            return screenHeight / 900 * 30;
-        }
-
-        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-        height: _height()
+		anchors.left: parent.left
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
     }
 }
