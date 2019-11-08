@@ -85,11 +85,11 @@ func (b *BackEnd) startImageSlides() {
 		logrus.WithError(err).Errorln("failed to read image dir")
 	}
 
-	imageSlides := []string{}
+	imageSlides := []ImageSlide{}
 	for _, file := range files {
 		filePath := fp.Join(imageDir, file.Name())
-		if imageIsJPG(filePath) {
-			imageSlides = append(imageSlides, filePath)
+		if slide, err := createImageSlide(filePath); err == nil {
+			imageSlides = append(imageSlides, slide)
 		}
 	}
 
@@ -101,7 +101,8 @@ func (b *BackEnd) startImageSlides() {
 			slideIndex = 0
 		}
 
-		b.imageChanged(imageSlides[slideIndex])
-		time.Sleep(30 * time.Second)
+		jsonSlide, _ := encodeJSON(&imageSlides[slideIndex])
+		b.imageChanged(jsonSlide)
+		time.Sleep(20 * time.Second)
 	}
 }

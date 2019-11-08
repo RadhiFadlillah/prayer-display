@@ -7,10 +7,10 @@ Rectangle {
 
     property var target: {}
     property int currentSeconds: 0
-    property alias date: txtDate.text
-    property alias clock: txtClock.text
-    property alias dateColor: txtDate.color
-    property alias clockColor: txtClock.color
+    property string date
+    property string clock
+	property string bgColor
+	property string fontColor
 
 	function _paddingSize() {
 		var padding = Math.round(width / 1600 * 12);
@@ -50,9 +50,17 @@ Rectangle {
 		}
 
         if (diffHours > 0) {
-			countdown = `${diffHours} jam ${diffMinutes} menit lagi`;
+			if (diffMinutes === 0) {
+				countdown = `${diffHours} jam lagi`;
+			} else {
+				countdown = `${diffHours} jam ${diffMinutes} menit lagi`;
+			}
 		} else if (diffMinutes > 0) {
-			countdown = `${diffMinutes} menit ${diffSeconds} detik lagi`;
+			if (diffSeconds === 0) {
+				countdown = `${diffMinutes} menit lagi`;
+			} else {
+				countdown = `${diffMinutes} menit ${diffSeconds} detik lagi`;
+			}
 		} else {
 			countdown = `${diffSeconds} detik lagi`;
 		}
@@ -64,8 +72,8 @@ Rectangle {
 	implicitHeight: content.height + (_paddingSize() * 2)
 
     Rectangle {
-        color: "#000"
-        opacity: 0.6
+        opacity: 0.7
+        color: root.bgColor
 		anchors.fill: parent
     }
 
@@ -80,9 +88,13 @@ Rectangle {
 		anchors.margins: root._paddingSize()
 
         Text {
-            id: txtClock
+			function _color() {
+				if (root.fontColor === "#FFF") return "#FF0";
+				else return "#00F";
+			}
 
-            color: "yellow"
+			text: root.clock
+            color: _color()
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
 			font.bold: true
@@ -91,9 +103,8 @@ Rectangle {
         }
 
         Text {
-            id: txtDate
-
-            color: "#FFF"
+			text: root.date
+            color: root.fontColor
             verticalAlignment: Text.AlignVCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -102,7 +113,7 @@ Rectangle {
         }
 
         Text {
-            color: txtDate.color
+            color: root.fontColor
             text: root._countdownText()
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true

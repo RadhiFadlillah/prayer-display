@@ -3,11 +3,6 @@ package backend
 import (
 	"bytes"
 	"encoding/json"
-	"image"
-	"os"
-
-	// We only want to check jpeg image
-	_ "image/jpeg"
 )
 
 var indonesianDays = []string{
@@ -88,21 +83,6 @@ func getHijriMonthName(month int) string {
 	}
 
 	return ""
-}
-
-func imageIsJPG(imgPath string) bool {
-	imgFile, err := os.Open(imgPath)
-	if err != nil {
-		return false
-	}
-	defer imgFile.Close()
-
-	_, format, err := image.DecodeConfig(imgFile)
-	if err != nil {
-		return false
-	}
-
-	return format == "jpeg"
 }
 
 func encodeJSON(src interface{}) (string, error) {

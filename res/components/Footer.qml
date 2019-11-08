@@ -6,6 +6,9 @@ Rectangle {
 
     property var target: {}
     property var prayerData: []
+	property string fontColor
+	property string mainColor
+	property string accentColor
 
 	function _spacingSize() {
 		var spacing = Math.round(width / 1600 * 8);
@@ -35,11 +38,20 @@ Rectangle {
 			model: root.prayerData.slice(0, 6)
 
 			PrayerTime {
+				function _bgColor() {
+					var targetData = root.target || {},
+						targetIndex = targetData.index || -1;
+
+					if (index === targetIndex) return root.accentColor;
+					else return root.mainColor;
+				}
+
 				name: modelData.name
 				adhan: modelData.adhan
 				iqamah: modelData.iqamah
 				parentWidth: root.width
-				color: "yellow"
+				fontColor: root.fontColor
+				bgColor: _bgColor()
 			}
 		}
 

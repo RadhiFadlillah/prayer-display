@@ -8,6 +8,8 @@ Rectangle {
 	property string name
 	property string adhan
 	property string iqamah
+	property string bgColor
+	property string fontColor
 	property double parentWidth
 	
 	function _paddingSize() {
@@ -27,10 +29,19 @@ Rectangle {
         return Math.round(parentWidth / 1600 * 21) || 21;
 	}
 
-	implicitWidth: childrenRect.width + (_paddingSize() * 2)
-	implicitHeight: childrenRect.height + (_paddingSize() * 2)
+    color: "transparent"
+	implicitWidth: content.width + (_paddingSize() * 2)
+	implicitHeight: content.height + (_paddingSize() * 2)
+
+    Rectangle {
+        opacity: 0.7
+        color: root.bgColor
+		anchors.fill: parent
+    }
 
 	ColumnLayout {
+		id: content
+
         spacing: 0
 		anchors.top: parent.top
 		anchors.left: parent.left
@@ -38,6 +49,7 @@ Rectangle {
 
 		Text {
 			text: root.name
+			color: root.fontColor
 			Layout.fillWidth: true
 			horizontalAlignment: Text.AlignHCenter
 			font.family: SSP.Fonts.semiBold
@@ -46,6 +58,7 @@ Rectangle {
 
 		Text {
 			text: root.adhan
+			color: root.fontColor
 			Layout.fillWidth: true
 			horizontalAlignment: Text.AlignHCenter
 			font.bold: true
@@ -55,6 +68,7 @@ Rectangle {
 
 		Text {
 			text: `[${root.iqamah}]`
+			color: root.fontColor
 			Layout.fillWidth: true
 			horizontalAlignment: Text.AlignHCenter
 			font.family: SSP.Fonts.semiBold

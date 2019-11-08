@@ -65,8 +65,17 @@ Rectangle {
             footer.target = target;
         }
 
-        function _onImageChanged(filePath) {
-            imageSlides.imagePath = filePath;
+        function _onImageChanged(jsonData) {
+			var slide = JSON.parse(jsonData);
+
+            imageSlides.imagePath = slide.path;
+
+			header.bgColor = slide.mainColor;
+			header.fontColor = slide.fontColor;
+
+			footer.fontColor = slide.fontColor;
+			footer.mainColor = slide.mainColor;
+			footer.accentColor = slide.accentColor;
         }
 
         onDateChanged: (date, prayer) => _onDateChanged(date, prayer)
