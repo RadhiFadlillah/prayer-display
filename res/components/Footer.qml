@@ -42,6 +42,7 @@ Rectangle {
 					var targetData = root.target || {},
 						targetIndex = targetData.index || -1;
 
+					if (targetIndex > 5) targetIndex = 0;
 					if (index === targetIndex) return root.accentColor;
 					else return root.mainColor;
 				}
