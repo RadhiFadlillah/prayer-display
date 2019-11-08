@@ -5,9 +5,9 @@ import (
 	"image"
 	"os"
 
-	dc "github.com/cenkalti/dominantcolor"
 	"github.com/disintegration/imaging"
 	"github.com/lucasb-eyer/go-colorful"
+	ce "github.com/marekm4/color-extractor"
 
 	// We only want to check jpeg image
 	_ "image/jpeg"
@@ -70,8 +70,11 @@ func createImageSlide(imgPath string) (ImageSlide, error) {
 }
 
 func getColorPalette(img image.Image) (main, accent, font string) {
+	// Get color palettes
+	colors := ce.ExtractColors(img)
+
 	// Get dominant color as main
-	mainColor, ok := colorful.MakeColor(dc.Find(img))
+	mainColor, ok := colorful.MakeColor(colors[0])
 	if !ok {
 		return "#000", "#000", "#000"
 	}
