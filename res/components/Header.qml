@@ -9,8 +9,9 @@ Rectangle {
     property int currentSeconds: 0
     property string date
     property string clock
-	property string bgColor
 	property string fontColor
+	property string mainColor
+	property string accentColor
 
 	function _paddingSize() {
 		var padding = Math.round(width / 1600 * 12);
@@ -73,7 +74,7 @@ Rectangle {
 
     Rectangle {
         opacity: 0.7
-        color: root.bgColor
+        color: root.mainColor
 		anchors.fill: parent
     }
 

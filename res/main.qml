@@ -70,12 +70,13 @@ Rectangle {
 
             imageSlides.imagePath = slide.path;
 
-			header.bgColor = slide.mainColor;
-			header.fontColor = slide.fontColor;
+			header.mainColor = slide.headerMain;
+			header.fontColor = slide.headerFont;
+			header.accentColor = slide.headerAccent;
 
-			footer.fontColor = slide.fontColor;
-			footer.mainColor = slide.mainColor;
-			footer.accentColor = slide.accentColor;
+			footer.fontColor = slide.footerFont;
+			footer.mainColor = slide.footerMain;
+			footer.accentColor = slide.footerAccent;
         }
 
         onDateChanged: (date, prayer) => _onDateChanged(date, prayer)
