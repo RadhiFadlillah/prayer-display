@@ -12,8 +12,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Display is back end for the app.
-type Display struct {
+func init() {
+	RegisterQmlBackEnd("BackEnd", 1, 0, "BackEnd")
+}
+
+// BackEnd is back end for the app.
+type BackEnd struct {
 	qamel.QmlObject
 
 	_ func()               `slot:"start"`
@@ -22,13 +26,13 @@ type Display struct {
 	_ func(string)         `signal:"imageChanged"`
 }
 
-func (b *Display) start() {
+func (b *BackEnd) start() {
 	go b.startDateTicker()
 	go b.startClockTicker()
 	go b.startImageSlides()
 }
 
-func (b *Display) startClockTicker() {
+func (b *BackEnd) startClockTicker() {
 	for {
 		now := time.Now()
 		seconds := now.Hour()*3600 + now.Minute()*60 + now.Second()
@@ -38,7 +42,7 @@ func (b *Display) startClockTicker() {
 	}
 }
 
-func (b *Display) startDateTicker() {
+func (b *BackEnd) startDateTicker() {
 	for {
 		// Generate date value to show
 		date := time.Now()
@@ -66,7 +70,7 @@ func (b *Display) startDateTicker() {
 	}
 }
 
-func (b *Display) startImageSlides() {
+func (b *BackEnd) startImageSlides() {
 	// Get executable directory
 	exePath, err := os.Executable()
 	if err != nil {
