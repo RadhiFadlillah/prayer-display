@@ -76,33 +76,26 @@ Rectangle {
         opacity: 0.7
         color: root.mainColor
 		anchors.fill: parent
-		anchors.leftMargin: txtClock.width + (root._paddingSize() * 2)
-    }
-
-    Rectangle {
-        opacity: 0.7
-        color: root.accentColor
-		width: txtClock.width + (root._paddingSize() * 2)
-		anchors.top: parent.top
-		anchors.left: parent.left
-		anchors.bottom: parent.bottom
     }
 
     RowLayout {
 		id: content
 
 		width: root.width
-        spacing: root._paddingSize() * 2
+        spacing: root._paddingSize()
 		anchors.top: parent.top
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.margins: root._paddingSize()
 
         Text {
-			id: txtClock
+			function _color() {
+				if (root.fontColor === "#FFF") return "#FF0";
+				else return "#00F";
+			}
 
 			text: root.clock
-            color: root.fontColor
+            color: _color()
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
 			font.bold: true
