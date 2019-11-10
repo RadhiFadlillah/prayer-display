@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtMultimedia 5.13
 import QtQuick.Layouts 1.12
 import BackEnd 1.0
 import "components" as Components
@@ -13,6 +14,12 @@ Rectangle {
         interval: 1000
         running: true
         onTriggered: backEnd.start()
+    }
+	
+	SoundEffect {
+        id: beep
+
+        source: "sounds/beep.wav"
     }
 
     BackEnd {
@@ -55,6 +62,10 @@ Rectangle {
                     break
                 }
             }
+
+			if (seconds === target.seconds) {
+				beep.play();
+			}
 
             // Set header data
             header.target = target;
