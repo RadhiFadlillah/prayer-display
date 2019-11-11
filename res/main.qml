@@ -35,7 +35,7 @@ Rectangle {
             for (var i = 0; i < prayerData.length; i++) {
                 var data = prayerData[i];
 
-                if (seconds < data.start) {
+                if (seconds <= data.start) {
                     target = {
                         index: i,
                         name: data.name,
@@ -45,7 +45,7 @@ Rectangle {
                     break
                 }
 
-                if (seconds < data.finish) {
+                if (seconds <= data.finish) {
                     target = {
                         index: i,
                         name: `Iqamah ${data.name}`,
