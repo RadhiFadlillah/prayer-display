@@ -85,9 +85,15 @@ func getColorPalette(img image.Image) (main, accent, font string) {
 	if h < 0 {
 		h += 360
 	}
+
 	if l >= 0.9 {
 		l -= 0.2
 	}
+
+	if l <= 0.1 {
+		l += 0.2
+	}
+
 	accentColor := colorful.Hsl(h, 1, l)
 
 	// Get font color depending on lightness
