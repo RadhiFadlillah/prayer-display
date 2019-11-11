@@ -9,10 +9,35 @@ import (
 
 	hijri "github.com/RadhiFadlillah/go-hijri"
 	"github.com/RadhiFadlillah/qamel"
+	"github.com/faiface/beep"
+	"github.com/faiface/beep/speaker"
+	"github.com/faiface/beep/wav"
 	"github.com/sirupsen/logrus"
 )
 
+var beepBuffer *beep.Buffer
+
 func init() {
+	// Prepare beep sound
+	f, err := assets.Open("beep.wav")
+	if err != nil {
+		logrus.Fatalln("Failed to open audio:", err)
+	}
+	defer f.Close()
+
+	streamer, format, err := wav.Decode(f)
+	if err != nil {
+		logrus.Fatalln("Failed to decode audio:", err)
+	}
+
+	beepBuffer = beep.NewBuffer(format)
+	beepBuffer.Append(streamer)
+	streamer.Close()
+
+	// Prepare speaker
+	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+
+	// Register QML object
 	RegisterQmlBackEnd("BackEnd", 1, 0, "BackEnd")
 }
 
@@ -21,6 +46,7 @@ type BackEnd struct {
 	qamel.QmlObject
 
 	_ func()               `slot:"start"`
+	_ func()               `slot:"playBeep"`
 	_ func(string, int)    `signal:"clockChanged"`
 	_ func(string, string) `signal:"dateChanged"`
 	_ func(string)         `signal:"imageChanged"`
@@ -30,6 +56,11 @@ func (b *BackEnd) start() {
 	go b.startDateTicker()
 	go b.startClockTicker()
 	go b.startImageSlides()
+}
+
+func (b *BackEnd) playBeep() {
+	beepSound := beepBuffer.Streamer(0, beepBuffer.Len())
+	speaker.Play(beepSound)
 }
 
 func (b *BackEnd) startClockTicker() {

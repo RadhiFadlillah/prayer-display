@@ -1,5 +1,4 @@
 import QtQuick 2.12
-import QtMultimedia 5.13
 import QtQuick.Layouts 1.12
 import BackEnd 1.0
 import "components" as Components
@@ -14,12 +13,6 @@ Rectangle {
         interval: 1000
         running: true
         onTriggered: backEnd.start()
-    }
-	
-	SoundEffect {
-        id: beep
-
-        source: "sounds/beep.wav"
     }
 
     BackEnd {
@@ -64,7 +57,7 @@ Rectangle {
             }
 
 			if (seconds === target.seconds) {
-				beep.play();
+				backEnd.playBeep();
 			}
 
             // Set header data
@@ -97,8 +90,9 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        enabled: false
+        enabled: true
         cursorShape: Qt.BlankCursor
+		onPressed: {backEnd.playBeep()}
     }
 
     Components.ImageSlides {

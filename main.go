@@ -1,3 +1,5 @@
+//go:generate go run assets-generator.go
+
 package main
 
 import (
