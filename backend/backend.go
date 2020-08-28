@@ -8,7 +8,7 @@ import (
 	"time"
 
 	hijri "github.com/RadhiFadlillah/go-hijri"
-	"github.com/RadhiFadlillah/qamel"
+	"github.com/go-qamel/qamel"
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/speaker"
 	"github.com/faiface/beep/wav"

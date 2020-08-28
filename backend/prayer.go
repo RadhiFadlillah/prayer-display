@@ -16,42 +16,48 @@ type PrayerData struct {
 }
 
 func getPrayerTime(date time.Time) []PrayerData {
-	cfg := prayer.Config{
-		Latitude:          -2.20833,
-		Longitude:         113.91667,
-		Elevation:         45,
+	// Calculate adhan times
+	calc := (&prayer.Calculator{
+		Latitude:          -2.2307069,
+		Longitude:         113.9301163,
+		Elevation:         5,
 		CalculationMethod: prayer.Kemenag,
-		AsrJuristicMethod: prayer.Shafii,
+		AsrConvention:     prayer.Shafii,
 		PreciseToSeconds:  false,
-		Corrections: prayer.TimeCorrections{
-			Fajr:    2 * time.Minute,
-			Sunrise: -time.Minute,
-			Zuhr:    2 * time.Minute,
-			Asr:     time.Minute,
-			Maghrib: time.Minute,
-			Isha:    time.Minute,
+		AngleCorrection: prayer.AngleCorrection{
+			prayer.Fajr:    0.66667,
+			prayer.Sunrise: -0.66667,
+			prayer.Zuhr:    1,
+			prayer.Asr:     0.66667,
+			prayer.Maghrib: 0.75,
+			prayer.Isha:    0.66667,
 		},
-		Iqamah: prayer.IqamahDelay{
-			Fajr:    20 * time.Minute,
-			Zuhr:    15 * time.Minute,
-			Asr:     10 * time.Minute,
-			Maghrib: 10 * time.Minute,
-			Isha:    10 * time.Minute,
-		},
-	}
+	}).Init().SetDate(date)
 
-	nextDay := date.AddDate(0, 0, 1)
-	adhan, iqamah := prayer.GetTimes(date, cfg)
-	nextAdhan, nextIqamah := prayer.GetTimes(nextDay, cfg)
+	fajr := calc.Calculate(prayer.Fajr)
+	sunrise := calc.Calculate(prayer.Sunrise)
+	zuhr := calc.Calculate(prayer.Zuhr)
+	asr := calc.Calculate(prayer.Asr)
+	maghrib := calc.Calculate(prayer.Maghrib)
+	isha := calc.Calculate(prayer.Isha)
+	nextFajr := fajr.AddDate(0, 0, 1)
+
+	// Calculate iqamah times
+	iqamahFajr := fajr.Add(20 * time.Minute)
+	iqamahZuhr := zuhr.Add(15 * time.Minute)
+	iqamahAsr := asr.Add(10 * time.Minute)
+	iqamahMaghrib := maghrib.Add(10 * time.Minute)
+	iqamahIsha := isha.Add(10 * time.Minute)
+	iqamahNextFajr := nextFajr.Add(20 * time.Minute)
 
 	return []PrayerData{
-		createPrayerData("Subuh", adhan.Fajr, iqamah.Fajr, false),
-		createPrayerData("Syuruq", adhan.Sunrise, adhan.Sunrise, false),
-		createPrayerData("Zuhur", adhan.Zuhr, iqamah.Zuhr, false),
-		createPrayerData("Ashar", adhan.Asr, iqamah.Asr, false),
-		createPrayerData("Maghrib", adhan.Maghrib, iqamah.Maghrib, false),
-		createPrayerData("Isha", adhan.Isha, iqamah.Isha, false),
-		createPrayerData("Subuh", nextAdhan.Fajr, nextIqamah.Fajr, true),
+		createPrayerData("Subuh", fajr, iqamahFajr, false),
+		createPrayerData("Syuruq", sunrise, sunrise, false),
+		createPrayerData("Zuhur", zuhr, iqamahZuhr, false),
+		createPrayerData("Ashar", asr, iqamahAsr, false),
+		createPrayerData("Maghrib", maghrib, iqamahMaghrib, false),
+		createPrayerData("Isha", isha, iqamahIsha, false),
+		createPrayerData("Subuh", nextFajr, iqamahNextFajr, true),
 	}
 }
 
